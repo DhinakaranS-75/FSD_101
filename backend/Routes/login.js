@@ -22,6 +22,7 @@ router.post("/", async (req, res) => {
     } else if (loginCredentaials === "Server Busy") {
       res.status(200).send("Server Busy");
     } else {
+      res.status(200).json({ token: loginCredentaials.token });
     }
   } catch (error) {
     console.log(error);

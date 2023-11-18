@@ -1,8 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-
+const client = require("../redis");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 
 async function CheckUser(email) {
@@ -30,7 +30,7 @@ async function AuthenticateUser(email, password) {
         token: token,
         status: true,
       };
-
+      await client.set(`key-${email}`, JSON.stringify(response));
       await User.findOneAndUpdate(
         { email: userCheck.email },
         { $set: { token: token } },
@@ -45,4 +45,24 @@ async function AuthenticateUser(email, password) {
   }
 }
 
-module.exports = { CheckUser, AuthenticateUser };
+async function AuthorizUser(token) {
+  try {
+    const decodedToken = jwt.verify(token, process.env.login_secret_token);
+    if (decodedToken) {
+      const email = decodedToken.email;
+      const auth = await client.get(`key-${email}`);
+      if (auth) {
+        const data = JSON.parse(auth);
+        return data;
+      } else {
+        const data = await User.findOne({ email: email });
+        return data;
+      }
+    }
+    return false;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+module.exports = { CheckUser, AuthenticateUser, AuthorizUser };
