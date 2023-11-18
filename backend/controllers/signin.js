@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const verifyUser = require("../models/verfyUser");
+const verifyUser = require("../models/verifyUser");
 
 async function InsertVerifyUser(name, email, password) {
   try {

@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/singin", signinRouter);
+app.use("/signin", signinRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -20,7 +20,7 @@ const verifySchema = new mongoose.Schema(
     },
   },
   {
-    collation: "verifyUser",
+    collection: "verifyUser",
   }
 );
 
