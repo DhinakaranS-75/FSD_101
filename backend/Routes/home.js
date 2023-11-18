@@ -1,15 +1,16 @@
 const express = require("express");
-const { AuthorizUser } = require("../controllers/login");
+const { AuthorizeUser } = require("../controllers/login");
+
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
     const auth_token = req.headers.authorization;
-    const loginCredentaials = AuthorizUser(auth_token);
-    if (loginCredentaials === false) {
-      res.status(200).send("Incalid Token");
+    const loginCredentials = AuthorizeUser(auth_token);
+    if (loginCredentials === false) {
+      res.status(401).send("Invalid Token");
     } else {
-      res.json(loginCredentaials);
+      res.json(loginCredentials);
     }
   } catch (err) {
     console.log(err);

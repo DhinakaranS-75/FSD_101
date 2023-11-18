@@ -45,7 +45,7 @@ async function AuthenticateUser(email, password) {
   }
 }
 
-async function AuthorizUser(token) {
+async function AuthorizeUser(token) {
   try {
     const decodedToken = jwt.verify(token, process.env.login_secret_token);
     if (decodedToken) {
@@ -65,4 +65,6 @@ async function AuthorizUser(token) {
   }
 }
 
-module.exports = { CheckUser, AuthenticateUser, AuthorizUser };
+module.exports = { AuthorizeUser };
+
+module.exports = { CheckUser, AuthenticateUser, AuthorizeUser };
