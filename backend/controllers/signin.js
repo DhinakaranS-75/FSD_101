@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const verifyUser = require("../models/verifyUser");
-
+dotenv.config();
 async function InsertVerifyUser(name, email, password) {
   try {
     const salt = await bcrypt.genSalt(10);

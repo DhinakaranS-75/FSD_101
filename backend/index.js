@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDb = require("./db");
 const signinRouter = require("./Routes/signin");
+const loginRouter = require("./Routes/login");
 
 const PORT = 4000;
 const app = express();
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/signin", signinRouter);
+app.use("/login", loginRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

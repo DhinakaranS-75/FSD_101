@@ -2,7 +2,6 @@ const express = require("express");
 const { CheckUser } = require("../controllers/login");
 const { InsertVerifyUser } = require("../controllers/signin");
 const { InsertSignUpUser } = require("../controllers/signin");
-
 var router = express.Router();
 
 router.get("/:token", async (req, res) => {
