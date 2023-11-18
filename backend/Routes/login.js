@@ -1,6 +1,16 @@
 const express = require("express");
 const { AuthenticateUser } = require("../controllers/login");
+const client = require("../redis");
 var router = express.Router();
+
+client
+  .connect()
+  .then(() => {
+    console.log("Connected to Redis");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 router.post("/", async (req, res) => {
   try {
