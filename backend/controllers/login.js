@@ -5,6 +5,7 @@ async function CheckUser(email) {
     const user = await User.findOne({ email: email });
     if (user) {
       return true;
+    } else {
     }
     return false;
   } catch (err) {

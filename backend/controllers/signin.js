@@ -19,11 +19,11 @@ async function InsertVerifyUser(name, email, password) {
       token: token,
     });
 
-    const activtionLink = "link to be added";
+    const activtionLink = `http://localhost:4000/signin/${token}`;
     const content = `<h4>Hi ,There </h4>
     <h5>Welcome To The App</h5>
     <p>Thank You For Signing Up.Click on the below link to activate</p>
-    <a herf="${activtionLink}>Click Here</a>
+    <a href="${activtionLink}"> Click Here</a>
     <p>Regards</p>
     <p>Recipe_Book</p>`;
 
@@ -39,4 +39,46 @@ function generateToken(email) {
   return token;
 }
 
-module.exports = { InsertVerifyUser };
+async function InsertSignUpUser(token) {
+  try {
+    const userVerify = await verifyUser.findOne({ token: token });
+    if (userVerify) {
+      const newUser = new User({
+        name: userVerify.name,
+        email: userVerify.email,
+        password: userVerify.password,
+        forgotPassword: {},
+      });
+      await newUser.save();
+      await userVerify.deleteOne({ token: token });
+      const content = `
+      <h4>Hi ,Registeration Successful</h4>
+      <h5>Welcome To The App</h5>
+      <p>You are Successfully registerd</p>
+      <p>Regards</p>
+      <p>Recipe_Book</p>`;
+      sendMail(newUser.email, "Registeration Sucessful", content);
+      return `<h4>Hi ,There </h4>
+    <h5>Welcome To The App</h5>
+    <p>You are Successfully registerd</p>
+    <p>Regards</p>
+    <p>Recipe_Book</p>`;
+    }
+    return `<h4> Registeration failed</h4>  
+  <p>Link expired...........</p>
+  <p>Regards</p>
+  <p>Recipe_Book</p>`;
+  } catch (err) {
+    console.log(err);
+    return `<html>
+    <body>
+    <h4> Registeration failed</h4>  
+    <p>Unexpected error happenned......</p>
+    <p>Regards</p>
+    <p>Recipe_Book</p>
+    </body>
+    </html>`;
+  }
+}
+
+module.exports = { InsertVerifyUser, InsertSignUpUser };
