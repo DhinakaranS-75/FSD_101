@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const auth_token = await req.headers.authorization;
+    const auth_token = req.headers.authorization;
     const loginCredentaials = AuthorizUser(auth_token);
     if (loginCredentaials === false) {
       res.status(200).send("Incalid Token");
